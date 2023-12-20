@@ -1,5 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+print(os.environ['FLASK_ENV'])
+print(os.environ['MY_SECRET_API_KEY'])
 
 app = Flask(__name__)
 CORS(app)
@@ -29,4 +35,10 @@ def get_students():
     ]
     return jsonify(student_list)
 
-app.run(debug=True)
+
+IS_DEBUG_ENABLED = False
+if os.environ['FLASK_ENV'] == "dev":
+    IS_DEBUG_ENABLED = True
+
+app.run(debug=IS_DEBUG_ENABLED)
+
